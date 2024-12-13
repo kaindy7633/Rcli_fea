@@ -8,6 +8,7 @@ pub use process::process_csv;
 mod tests {
     use super::*;
     use anyhow::Result;
+    use opts::OutputFormat;
     use std::fs;
     use tempfile::tempdir;
 
@@ -28,8 +29,15 @@ Bob,25,Designer,"Nov 10, 1992 (26)",Italy,37"#,
         // 设置输出文件路径
         let output_path = temp_dir.path().join("output.json");
 
+        // 使用 OutputFormat 枚举而不是字符串
+        let format = OutputFormat::Json;
+
         // 测试处理函数
-        process_csv(input_path.to_str().unwrap(), output_path.to_str().unwrap())?;
+        process_csv(
+            input_path.to_str().unwrap(),
+            output_path.to_str().unwrap().to_string(),
+            format,
+        )?;
 
         // 验证输出文件存在
         assert!(output_path.exists());

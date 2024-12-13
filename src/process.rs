@@ -3,6 +3,8 @@ use csv::Reader;
 use serde::{Deserialize, Serialize};
 use std::fs;
 
+use crate::opts::OutputFormat;
+
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct Player {
@@ -15,7 +17,7 @@ struct Player {
     kit_number: u8,
 }
 
-pub fn process_csv(input: &str, output: &str) -> Result<()> {
+pub fn process_csv(input: &str, output: String, format: OutputFormat) -> Result<()> {
     // 初始化 CSV 读取器，从指定文件读取数据
     let mut reader = Reader::from_path(input)?;
 
@@ -41,10 +43,14 @@ pub fn process_csv(input: &str, output: &str) -> Result<()> {
         ret.push(json_value);
     }
 
-    // 将解析后的数据转换为格式化的 JSON 字符串
-    let json = serde_json::to_string_pretty(&ret)?;
+    let content = match format {
+        OutputFormat::Json => serde_json::to_string_pretty(&ret)?,
+        OutputFormat::Yaml => serde_yaml::to_string(&ret)?,
+        OutputFormat::Toml => toml::to_string(&ret)?,
+    };
+
     // 将 JSON 数据写入输出文件
-    fs::write(output, json)?;
+    fs::write(output, content)?;
 
     Ok(())
 }
