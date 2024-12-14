@@ -1,14 +1,14 @@
-mod opts;
-mod process;
+pub mod cli;
+pub mod process;
 
-pub use opts::{CsvOpts, Opts, SubCommand};
-pub use process::{process_csv, process_genpass};
+pub use crate::process::process_csv;
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use anyhow::Result;
-    use opts::OutputFormat;
+    use cli::OutputFormat;
+
     use std::fs;
     use tempfile::tempdir;
 

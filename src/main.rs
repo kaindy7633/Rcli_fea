@@ -1,8 +1,11 @@
 // rcli csv -i input.csv -o output.json --header -d ','
 
 use anyhow::Result;
+
 use clap::Parser;
-use rcli_fea::{process_csv, process_genpass, Opts, SubCommand};
+use rcli_fea::cli::{Opts, SubCommand};
+use rcli_fea::process::process_csv;
+use rcli_fea::process::process_genpass;
 
 fn main() -> Result<()> {
     // 解析命令行参数
