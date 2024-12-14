@@ -1,9 +1,10 @@
 use clap::Parser;
 use std::{
     fmt::{self},
-    path::Path,
     str::FromStr,
 };
+
+use super::verify_input_file;
 
 #[derive(Debug, Clone, Copy)]
 pub enum OutputFormat {
@@ -28,25 +29,6 @@ pub struct CsvOpts {
 
     #[arg(long, default_value_t = true)]
     pub header: bool,
-}
-
-/// 验证输入文件是否存在
-///
-/// # 参数
-/// * `file_name` - 要验证的文件路径字符串
-///
-/// # 返回值
-/// * `Ok(String)` - 如果文件存在，返回文件名字符串
-/// * `Err(String)` - 如果文件不存在，返回错误信息
-fn verify_input_file(file_name: &str) -> Result<String, &'static str> {
-    // 使用标准库的 Path 检查文件是否存在
-    if Path::new(file_name).exists() {
-        // 文件存在，返回文件名
-        Ok(file_name.into())
-    } else {
-        // 文件不存在，返回错误信息
-        Err("File does not exist!")
-    }
 }
 
 fn parse_format(format: &str) -> Result<OutputFormat, anyhow::Error> {

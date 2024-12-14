@@ -2495,6 +2495,7 @@ name = "rcli_fea"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "base64",
  "cargo-deny",
  "clap",
  "csv",
