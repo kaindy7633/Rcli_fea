@@ -24,7 +24,7 @@ pub fn process_genpass(
     lower: bool,
     number: bool,
     symbol: bool,
-) -> anyhow::Result<()> {
+) -> anyhow::Result<String> {
     let mut rng = rand::thread_rng();
     let mut password = Vec::new();
     let mut chars = Vec::new();
@@ -63,11 +63,6 @@ pub fn process_genpass(
 
     // 将密码转换为字符串
     let password = String::from_utf8(password)?;
-    println!("{}", password);
 
-    // 评估密码强度
-    let estimate = zxcvbn::zxcvbn(password.as_str(), &[]);
-    eprintln!("Password strength: {}", estimate.score());
-
-    Ok(())
+    Ok(password)
 }
